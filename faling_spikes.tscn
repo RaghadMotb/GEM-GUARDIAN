@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://uacd04557co1"]
+
+[ext_resource type="Script" uid="uid://cvrxy1kcch5jk" path="res://assets/Traps/Spikes/faling_spikes.gd" id="1_4x25q"]
+[ext_resource type="Texture2D" uid="uid://dcmlfxtrnl8p7" path="res://assets/Traps/Spikes/Idle.png" id="2_rdp7b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lcmxm"]
+size = Vector2(15, 42)
+
+[node name="FalingSpikes" type="Node2D"]
+script = ExtResource("1_4x25q")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_rdp7b")
+
+[node name="Hitbox" type="Area2D" parent="."]
+monitorable = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox"]
+polygon = PackedVector2Array(4, 1, 5, 2, 7, 6, 7, 8, 1, 8, -8, 8, -7, 4, -5, 2, -4, 1, 0, 0)
+
+[node name="PlayerDetect" type="Area2D" parent="Hitbox"]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox/PlayerDetect"]
+position = Vector2(-0.5, 21)
+shape = SubResource("RectangleShape2D_lcmxm")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_entered" from="Hitbox/PlayerDetect" to="." method="_on_player_detect_area_entered"]
+[connection signal="body_entered" from="Hitbox/PlayerDetect" to="." method="_on_player_detect_body_entered"]
